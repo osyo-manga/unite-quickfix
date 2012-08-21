@@ -13,8 +13,8 @@
 ==============================================================================
 概要						*unite_quickfix-introduction*
 
-|unite-quickfix| は |quickfix| のデータを Shougo 氏が作成された |unite.vim|
-へと出力を行うための |unite-sources| です。
+|unite-quickfix| は |quickfix| (|location-list|) のデータを Shougo 氏が作成された
+|unite.vim| へと出力を行うための |unite-sources| です。
 
 unite.vim - github : https://github.com/Shougo/unite.vim
 
@@ -37,6 +37,8 @@ unite-qf - github : https://github.com/sgur/unite-qf
 
 -文字コードの変換に未対応
 
+-location_list の出力
+
 
 ==============================================================================
 使い方						*unite-quickfix-usage*
@@ -44,8 +46,11 @@ unite-qf - github : https://github.com/sgur/unite-qf
 基本的には |quickfix| へ出力を行なってから |unite.vim| を起動させます。
 
 >
-	" unite-quickfix
+	" quickfix の出力
 	:Unite quickfix
+	
+	" location-list の出力
+	:Unite location_list
 	
 	" quickfix と同じような挙動
 	" 候補を選択しても unite.vim を終了せずに(-no-quit)
@@ -80,7 +85,7 @@ g:unite_quickfix_is_multiline			*g:unite_quickfix_is_multiline*
 	let g:unite_quickfix_is_multiline = 1
 <
 
-g:Unite_quickfix_abbr_formatter			 *g:Unite_quickfix_word_formatter*
+g:Unite_quickfix_abbr_formatter			*g:Unite_quickfix_word_formatter*
 	|unite.vim| の abbr に設定されるテキストを編集する為の |function()| を設
 	定します。
 	|unite.vim| の出力フォーマットを変更する場合はこれを使用して下さい。
@@ -98,6 +103,26 @@ Example: >
 g:Unite_quickfix_abbr_formatter		 	*g:Unite_quickfix_abbr_formatter*
 	|unite.vim| の word に設定される以外は |g:Unite_quickfix_word_formatter|
 	と同様です。
+
+
+g:unite_location_list_filename_is_pathshortenr	*g:unite_location_list_filename_is_pathshorten*
+	unite-location_list を参照する以外は、
+	|g:unite_quickfix_filename_is_pathshortenr| と同じです。
+
+
+g:unite_location_list_is_multiline		*g:unite_location_list_is_multiline*
+	unite-location_list を参照する以外は、
+	|g:unite_quickfix_is_multiline| と同じです。
+
+
+g:Unite_location_list_abbr_formatter		*g:Unite_location_list_word_formatter*
+	unite-location_list を参照する以外は、
+	|g:Unite_quickfix_abbr_formatter| と同じです。
+
+
+g:Unite_location_list_abbr_formatter		*g:Unite_location_list_abbr_formatter*
+	unite-location_list を参照する以外は、
+	|g:Unite_quickfix_abbr_formatter| と同じです。
 
 
 ==============================================================================
