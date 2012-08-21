@@ -1,0 +1,104 @@
+*unite-quickfix.txt*	quickfix を unite.vim に出力する unite-source です。
+
+
+==============================================================================
+目次						*unite_quickfix-contents*
+
+概要				|unite_quickfix-introduction|
+使い方				|unite-quickfix-usage|
+設定				|unite-quickfix-setting|
+  変数				  |unite-quickfix-variables|
+
+
+==============================================================================
+概要						*unite_quickfix-introduction*
+
+|unite-quickfix| は |quickfix| のデータを Shougo 氏が作成された |unite.vim|
+へと出力を行うための |unite-sources| です。
+
+unite.vim - github : https://github.com/Shougo/unite.vim
+
+
+また、同様の処理を行うプラグインとして、sgur 氏が作成された |unite-qf| が既に公
+開されております。
+
+unite-qf - github : https://github.com/sgur/unite-qf
+
+
+|unite-qf| との違いとして、下記のようなものが上げられます。
+
+- |unite.vim| への出力フォーマットをユーザ側で定義できる
+
+-is_multiline に対応
+--1行に収まらなかった場合に内容が短縮されるのではなく、2行目以降に続けて出力が
+  行われる
+
+-|pathshorten()| を使用したファイルパスの短縮
+
+-文字コードの変換に未対応
+
+
+==============================================================================
+使い方						*unite-quickfix-usage*
+
+基本的には |quickfix| へ出力を行なってから |unite.vim| を起動させます。
+
+>
+	" unite-quickfix
+	:Unite quickfix
+	
+	" quickfix と同じような挙動
+	" 候補を選択しても unite.vim を終了せずに(-no-quit)
+	" 一番下に unite.vim を開く(-direction=botright)
+	:Unite -no-quit -direction=botright quickfix
+<
+
+
+==============================================================================
+設定						*unite-quickfix-setting*
+
+------------------------------------------------------------------------------
+変数						*unite-quickfix-variables*
+
+g:unite_quickfix_filename_is_pathshortenr	*g:unite_quickfix_filename_is_pathshorten*
+	表示されるファイル名を短縮するかどうか設定します。
+
+	0 : 短縮しない
+	1 : 短縮する
+>
+	" Default
+	let unite_quickfix_filename_is_pathshortenr = 1
+<
+
+g:unite_quickfix_is_multiline			*g:unite_quickfix_is_multiline*
+	ウィンドウ幅からはみ出た場合に改行して表示するかどうかを設定します。
+
+	0 : 改行しない
+	1 : 改行する
+>
+	" Default
+	let g:unite_quickfix_is_multiline = 1
+<
+
+g:Unite_quickfix_abbr_formatter			 *g:Unite_quickfix_word_formatter*
+	|unite.vim| の abbr に設定されるテキストを編集する為の |function()| を設
+	定します。
+	|unite.vim| の出力フォーマットを変更する場合はこれを使用して下さい。
+	関数に渡される引数は |getqflist()| で返される辞書になります。
+
+Example: >
+	" val は getqflist() で返される辞書
+	function! g:formatter(val)
+		return bufname(a:val.bufnr)."|".a:val.lnum."| ".a:val.text
+	endfunction
+	
+	let g:Unite_quickfix_word_formatter = function("g:formatter")
+<
+
+g:Unite_quickfix_abbr_formatter		 	*g:Unite_quickfix_abbr_formatter*
+	|unite.vim| の word に設定される以外は |g:Unite_quickfix_word_formatter|
+	と同様です。
+
+
+==============================================================================
+vim:tw=78:fo=tcq2mM:ts=8:ft=help:norl
