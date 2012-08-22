@@ -6,7 +6,12 @@ endfunction
 
 
 function! s:unite_quickfix_word_formatter(val)
-	return a:val.text
+	let fname = a:val.bufnr == 0 ? "" : bufname(a:val.bufnr)
+	let line  = fname == "" ? "" : a:val.lnum
+	let text  = a:val.text
+	let fname_short = g:unite_quickfix_filename_is_pathshorten ? pathshorten(fname) : fname
+	let error = a:val.type == "e" ? "|error ":""
+	return fname_short."|".line.error."| ".text
 endfunction
 
 function! s:unite_quickfix_abbr_formatter(val)
