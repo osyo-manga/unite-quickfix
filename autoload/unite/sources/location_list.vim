@@ -5,25 +5,6 @@ function! unite#sources#location_list#define()
 endfunction
 
 
-function! s:unite_location_list_word_formatter(val)
-	let fname = a:val.bufnr == 0 ? "" : bufname(a:val.bufnr)
-	let line  = fname == "" ? "" : a:val.lnum
-	let text  = a:val.text
-	let fname_short = g:unite_location_list_filename_is_pathshorten ? pathshorten(fname) : fname
-	let error = a:val.type == "e" ? "|error ":""
-	return fname_short."|".line.error."| ".text
-endfunction
-
-function! s:unite_location_list_abbr_formatter(val)
-	let fname = a:val.bufnr == 0 ? "" : bufname(a:val.bufnr)
-	let line  = fname == "" ? "" : a:val.lnum
-	let text  = a:val.text
-	let fname_short = g:unite_location_list_filename_is_pathshorten ? pathshorten(fname) : fname
-	let error = a:val.type == "e" ? "|error ":""
-	return fname_short."|".line.error."| ".text
-endfunction
-
-
 let g:unite_location_list_filename_is_pathshorten =
 	\ get(g:, "unite_location_list_filename_is_pathshorten", 1)
 
@@ -31,10 +12,10 @@ let g:unite_location_list_is_multiline =
 	\ get(g:, "unite_location_list_is_multiline", 1)
 
 let g:Unite_location_list_word_formatter =
-	\ get(g:, "Unite_location_list_word_formatter", function("s:unite_location_list_word_formatter"))
+	\ get(g:, "Unite_location_list_word_formatter", function("unite#sources#quickfix#word_formatter"))
 
-let g:Unite_location_list_abbr_formatter =
-	\ get(g:, "Unite_location_list_abbr_formatter", function("s:unite_location_list_abbr_formatter"))
+let g:Unite_location_list_yank_text_formatter =
+	\ get(g:, "Unite_location_list_yank_text_formatter", function("unite#sources#quickfix#yank_text_formatter"))
 
 
 let s:source = {
@@ -47,20 +28,21 @@ function! s:location_list_to_unite(val)
 	let line  = fname == "" ? 0 : a:val.lnum
 
 	let word = g:Unite_location_list_word_formatter(a:val)
-	let abbr = g:Unite_location_list_word_formatter == g:Unite_location_list_abbr_formatter
+	let yank_text = g:Unite_location_list_word_formatter == g:Unite_location_list_yank_text_formatter
 \			 ? word
-\			 : g:Unite_location_list_abbr_formatter(a:val)
+\			 : g:Unite_location_list_yank_text_formatter(a:val)
 
 	return {
-	\ "word": word,
-	\ "abbr": abbr,
-	\ "source": "location_list",
-	\ "kind": "jump_list",
-	\ "action__path": fname,
-	\ "action__line": line,
-	\ "action__pattern": a:val.pattern,
-	\ "is_multiline" : g:unite_location_list_is_multiline,
-	\ }
+\		"word": word,
+\		"source": "quickfix",
+\		"kind": "jump_list",
+\		"action__path" : fname,
+\		"action__line" : line,
+\		"action__pattern" : a:val.pattern,
+\		"action__text" : yank_text,
+\		"is_multiline" : g:unite_quickfix_is_multiline,
+\		}
+
 endfunction
 
 function! s:source.gather_candidates(args, context)

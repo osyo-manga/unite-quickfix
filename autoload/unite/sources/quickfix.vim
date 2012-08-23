@@ -5,7 +5,7 @@ function! unite#sources#quickfix#define()
 endfunction
 
 
-function! s:unite_quickfix_word_formatter(val)
+function! unite#sources#quickfix#word_formatter(val)
 	let fname = a:val.bufnr == 0 ? "" : bufname(a:val.bufnr)
 	let line  = fname == "" ? "" : a:val.lnum
 	let text  = a:val.text
@@ -14,13 +14,8 @@ function! s:unite_quickfix_word_formatter(val)
 	return fname_short."|".line.error."| ".text
 endfunction
 
-function! s:unite_quickfix_abbr_formatter(val)
-	let fname = a:val.bufnr == 0 ? "" : bufname(a:val.bufnr)
-	let line  = fname == "" ? "" : a:val.lnum
-	let text  = a:val.text
-	let fname_short = g:unite_quickfix_filename_is_pathshorten ? pathshorten(fname) : fname
-	let error = a:val.type == "e" ? "|error ":""
-	return fname_short."|".line.error."| ".text
+function! unite#sources#quickfix#yank_text_formatter(val)
+	return a:val.text
 endfunction
 
 
@@ -31,10 +26,10 @@ let g:unite_quickfix_is_multiline =
 	\ get(g:, "unite_quickfix_is_multiline", 1)
 
 let g:Unite_quickfix_word_formatter =
-	\ get(g:, "Unite_quickfix_word_formatter", function("s:unite_quickfix_word_formatter"))
+	\ get(g:, "Unite_quickfix_word_formatter", function("unite#sources#quickfix#word_formatter"))
 
-let g:Unite_quickfix_abbr_formatter =
-	\ get(g:, "Unite_quickfix_abbr_formatter", function("s:unite_quickfix_abbr_formatter"))
+let g:Unite_quickfix_yank_text_formatter =
+	\ get(g:, "Unite_quickfix_yank_text_formatter", function("unite#sources#quickfix#yank_text_formatter"))
 
 
 let s:source = {
@@ -47,20 +42,20 @@ function! s:qflist_to_unite(val)
 	let line  = fname == "" ? 0 : a:val.lnum
 
 	let word = g:Unite_quickfix_word_formatter(a:val)
-	let abbr = g:Unite_quickfix_word_formatter == g:Unite_quickfix_abbr_formatter
+	let yank_text = g:Unite_quickfix_word_formatter == g:Unite_quickfix_yank_text_formatter
 \			 ? word
-\			 : g:Unite_quickfix_abbr_formatter(a:val)
+\			 : g:Unite_quickfix_yank_text_formatter(a:val)
 
 	return {
-	\ "word": word,
-	\ "abbr": abbr,
-	\ "source": "quickfix",
-	\ "kind": "jump_list",
-	\ "action__path": fname,
-	\ "action__line": line,
-	\ "action__pattern": a:val.pattern,
-	\ "is_multiline" : g:unite_quickfix_is_multiline,
-	\ }
+\		"word": word,
+\		"source": "quickfix",
+\		"kind": "jump_list",
+\		"action__path" : fname,
+\		"action__line" : line,
+\		"action__pattern" : a:val.pattern,
+\		"action__text" : yank_text,
+\		"is_multiline" : g:unite_quickfix_is_multiline,
+\		}
 endfunction
 
 function! s:source.gather_candidates(args, context)
