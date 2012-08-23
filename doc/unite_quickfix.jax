@@ -7,7 +7,8 @@
 概要				|unite_quickfix-introduction|
 使い方				|unite-quickfix-usage|
 設定				|unite-quickfix-setting|
-  変数				  |unite-quickfix-variables|
+  unite-quickrun の変数		  |unite-quickfix-variables|
+  unite-location_list の変数	  |unite-location_list-variables|
 
 
 ==============================================================================
