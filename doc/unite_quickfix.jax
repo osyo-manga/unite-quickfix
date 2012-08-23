@@ -34,11 +34,14 @@ unite-qf - github : https://github.com/sgur/unite-qf
 --1行に収まらなかった場合に内容が短縮されるのではなく、2行目以降に続けて出力が
   行われる
 
+-:colder と :cnewer を使用した履歴の取得
+
 -|pathshorten()| を使用したファイルパスの短縮
 
 -文字コードの変換に未対応
 
 -location_list の出力
+
 
 
 ==============================================================================
@@ -52,6 +55,11 @@ unite-qf - github : https://github.com/sgur/unite-qf
 	
 	" location-list の出力
 	:Unite location_list
+	
+	" 2つ前の quickfix を出力
+	" この場合、unite.vim の出力が変更されるだけで
+	" 実際に:colder は行われないので注意して下さい
+	:Unite quickfix:2
 	
 	" quickfix と同じような挙動
 	" 候補を選択しても unite.vim を終了せずに(-no-quit)

@@ -46,11 +46,20 @@ function! s:location_list_to_unite(val)
 endfunction
 
 function! s:source.gather_candidates(args, context)
-	echom "homu"
 	let unite = get(b:, "unite", {})
 	let winnr = get(unite, "prev_winnr", winnr())
-	echom winnr
-	return map(getloclist(winnr), "s:location_list_to_unite(v:val)")
+
+	let lolder = empty(a:args) ? 0 : a:args[0]
+	if lolder == 0
+		return map(getloclist(winnr), "s:location_list_to_unite(v:val)")
+	else
+		try
+			execute "lolder" lolder
+			return map(getloclist(winnr), "s:location_list_to_unite(v:val)")
+		finally
+			execute "lnewer" lolder
+		endtry
+	endif
 endfunction
 
 

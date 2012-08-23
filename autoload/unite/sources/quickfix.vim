@@ -59,6 +59,16 @@ function! s:qflist_to_unite(val)
 endfunction
 
 function! s:source.gather_candidates(args, context)
-	return map(getqflist(), "s:qflist_to_unite(v:val)")
+	let qfolder = empty(a:args) ? 0 : a:args[0]
+	if qfolder == 0
+		return map(getqflist(), "s:qflist_to_unite(v:val)")
+	else
+		try
+			execute "colder" qfolder
+			return map(getqflist(), "s:qflist_to_unite(v:val)")
+		finally
+			execute "cnewer" qfolder
+		endtry
+	endif
 endfunction
 
