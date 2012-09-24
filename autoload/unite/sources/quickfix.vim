@@ -4,7 +4,6 @@ function! unite#sources#quickfix#define()
 	return s:source
 endfunction
 
-
 function! unite#sources#quickfix#word_formatter(val)
 	let fname = a:val.bufnr == 0 ? "" : bufname(a:val.bufnr)
 	let line  = fname == "" ? "" : a:val.lnum
@@ -35,6 +34,8 @@ let g:Unite_quickfix_yank_text_formatter =
 let s:source = {
 \	"name" : "quickfix",
 \	"description" : "output quickfix",
+\	"syntax" : "uniteSource__QuickFix",
+\	"hooks" : {},
 \}
 
 function! s:qflist_to_unite(val)
@@ -72,3 +73,18 @@ function! s:source.gather_candidates(args, context)
 	endif
 endfunction
 
+function! s:hl_candidates()
+	syntax match uniteSource__QuickFix_Header /[^|]*|\d*|/
+\		contained containedin=uniteSource__QuickFix
+\		contains=uniteSource__QuickFix_File,uniteSource__QuickFix_LineNr
+	syntax match uniteSource__QuickFix_File /[^|]*/
+\		contained containedin=uniteSource__QuickFix_Header nextgroup=uniteSource__QuickFix_LineNr
+	syntax match uniteSource__QuickFix_LineNr /|\d*|/hs=s+1,he=e-1
+\		contained containedin=uniteSource__QuickFix_Header
+	highlight default link uniteSource__QuickFix_File Directory
+	highlight default link uniteSource__QuickFix_LineNr LineNr
+endfunction
+
+function! s:source.hooks.on_syntax(args, context)
+	call s:hl_candidates()
+endfunction
