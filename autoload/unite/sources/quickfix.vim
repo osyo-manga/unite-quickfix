@@ -39,8 +39,9 @@ let s:source = {
 \}
 
 function! s:qflist_to_unite(val)
-	let fname = a:val.bufnr == 0 ? "" : bufname(a:val.bufnr)
-	let line  = fname == "" ? 0 : a:val.lnum
+	let bufnr = a:val.bufnr
+	let fname = bufnr == 0 ? "" : bufname(bufnr)
+	let line  = bufnr == 0 ? 0 : a:val.lnum
 
 	let word = g:Unite_quickfix_word_formatter(a:val)
 	let yank_text = g:Unite_quickfix_word_formatter == g:Unite_quickfix_yank_text_formatter
@@ -51,6 +52,7 @@ function! s:qflist_to_unite(val)
 \		"word": word,
 \		"source": "quickfix",
 \		"kind": "jump_list",
+\		"action__buffer_nr" : bufnr,
 \		"action__path" : fname,
 \		"action__line" : line,
 \		"action__pattern" : a:val.pattern,
