@@ -4,13 +4,25 @@ function! unite#sources#quickfix#define()
 	return s:source
 endfunction
 
+
 function! unite#sources#quickfix#word_formatter(val)
-	let fname = a:val.bufnr == 0 ? "" : bufname(a:val.bufnr)
+	if a:val.bufnr && !empty(bufname(a:val.bufnr))
+		if g:unite_quickfix_filename_is_pathshorten
+			let fname = pathshorten(bufname(a:val.bufnr))
+		else
+			let fname = bufname(a:val.bufnr)
+		endif
+	else
+		if a:val.bufnr
+			let fname = "bufnr[".a:val.bufnr."]"
+		else
+			let fname = ""
+		endif
+	endif
 	let line  = fname == "" ? "" : a:val.lnum
 	let text  = a:val.text
-	let fname_short = g:unite_quickfix_filename_is_pathshorten ? pathshorten(fname) : fname
 	let error = a:val.type == "e" ? "|error ":""
-	return fname_short."|".line.error."| ".text
+	return fname."|".line.error."| ".text
 endfunction
 
 function! unite#sources#quickfix#yank_text_formatter(val)
