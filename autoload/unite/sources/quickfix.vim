@@ -21,7 +21,10 @@ function! unite#sources#quickfix#word_formatter(val)
 	endif
 	let line  = fname == "" ? "" : a:val.lnum
 	let text  = a:val.text
-	let error = a:val.type == "e" ? "|error ":""
+	let error
+\	  = a:val.type == "e" ? "|error "
+\	  : a:val.type == "w" ? "|warning "
+\	  : ""
 	return fname."|".line.error."| ".text
 endfunction
 
