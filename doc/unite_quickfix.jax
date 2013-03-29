@@ -30,17 +30,17 @@ unite-qf - github : https://github.com/sgur/unite-qf
 
 - |unite.vim| への出力フォーマットをユーザ側で定義できる
 
--is_multiline に対応
---1行に収まらなかった場合に内容が短縮されるのではなく、2行目以降に続けて出力が
+- is_multiline に対応
+-- 1行に収まらなかった場合に内容が短縮されるのではなく、2行目以降に続けて出力が
   行われる
 
--:colder と :cnewer を使用した履歴の取得
+- :colder と :cnewer を使用した履歴の取得
 
--|pathshorten()| を使用したファイルパスの短縮
+- |pathshorten()| を使用したファイルパスの短縮
 
--文字コードの変換に未対応
+- 文字コードの変換に未対応
 
--location_list の出力
+- location_list の出力
 
 
 
@@ -75,14 +75,14 @@ unite-qf - github : https://github.com/sgur/unite-qf
 ------------------------------------------------------------------------------
 unite-quickrun の変数				*unite-quickfix-variables*
 
-g:unite_quickfix_filename_is_pathshortenr	*g:unite_quickfix_filename_is_pathshorten*
+g:unite_quickfix_filename_is_pathshorten	*g:unite_quickfix_filename_is_pathshorten*
 	表示されるファイル名を短縮するかどうか設定します。
 
 	0 : 短縮しない
 	1 : 短縮する
 
 Default: >
-	let unite_quickfix_filename_is_pathshortenr = 1
+	let unite_quickfix_filename_is_pathshorten = 1
 <
 
 
@@ -97,60 +97,24 @@ Default: >
 <
 
 
-g:Unite_quickfix_word_formatter			*g:Unite_quickfix_word_formatter*
-	|unite.vim| の word に設定されるテキストを編集する為の |function()| を設
-	定します。
-	関数に渡される引数は |getqflist()| で返される辞書になります。
-	この変数を使用することで、|unite.vim| の出力フォーマットや絞り込みが行
-	われるテキストの設定を行うことができます。
+==============================================================================
+設定例						*unite-quickfix-example*
 
-Default: >
-	let g:Unite_quickfix_word_formatter =
-		\ function("unite#sources#quickfix#word_formatter"))
-<
+ハイライトする					*unite-quickfix-highlight*
+ハイライト機能を使用する場合は unite-filters で設定します。
+また、この機能は -multi-line では使用できず、-wrap を設定する必要があります。
 
 Example: >
-	" val は getqflist() で返される辞書
-	function! g:formatter(val)
-		return bufname(a:val.bufnr)."|".a:val.lnum."| ".a:val.text
-	endfunction
+	" multi-line を切る
+	let g:unite_quickfix_is_multiline=0
 	
-	let g:Unite_quickfix_word_formatter = function("g:formatter")
+	" コンバータに converter_quickfix_highlight を設定
+	call unite#custom_source('quickfix', 'converters', 'converter_quickfix_highlight')
+	call unite#custom_source('location_list', 'converters', 'converter_quickfix_highlight')
+
+	" -wrap を付けて使用しなければうまくハイライトが行われない
+	:Unite quickfix -wrap
 <
-
-
-g:Unite_quickfix_yank_text_formatter 		*g:Unite_quickfix_yank_text_formatter*
-	|unite.vim| で yy した場合にヤンクされるテキストフォーマット関数を指定しま
-	す。
-	使用方法は |g:Unite_quickfix_word_formatter| と同じです。
-
-Default: >
-	let g:Unite_quickfix_yank_text_formatter =
-		\ function("unite#sources#quickfix#yank_text_formatter"))
-<
-
-
-------------------------------------------------------------------------------
-unite-location_list の変数			*unite-location_list-variables*
-
-g:unite_location_list_filename_is_pathshortenr	*g:unite_location_list_filename_is_pathshorten*
-	unite-location_list を参照する以外は、
-	|g:unite_quickfix_filename_is_pathshortenr| と同じです。
-
-
-g:unite_location_list_is_multiline		*g:unite_location_list_is_multiline*
-	unite-location_list を参照する以外は、
-	|g:unite_quickfix_is_multiline| と同じです。
-
-
-g:Unite_location_list_word_formatter		*g:Unite_location_list_word_formatter*
-	unite-location_list を参照する以外は、
-	|g:Unite_quickfix_abbr_formatter| と同じです。
-
-
-g:Unite_location_list_yank_text_formatter	 *g:Unite_location_list_yank_text_formatter*
-	unite-location_list を参照する以外は、
-	|g:Unite_quickfix_list_yank_text_formatter| と同じです。
 
 
 ==============================================================================
