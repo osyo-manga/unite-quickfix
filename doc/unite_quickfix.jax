@@ -28,20 +28,24 @@ unite-qf - github : https://github.com/sgur/unite-qf
 
 |unite-qf| との違いとして、下記のようなものが上げられます。
 
-- |unite.vim| への出力フォーマットをユーザ側で定義できる
-
 - is_multiline に対応
--- 1行に収まらなかった場合に内容が短縮されるのではなく、2行目以降に続けて出力が
+ - 1行に収まらなかった場合に内容が短縮されるのではなく、2行目以降に続けて出力が
   行われる
+ - |g:unite_quickfix_is_multiline|
 
-- :colder と :cnewer を使用した履歴の取得
+- |:colder| と |:cnewer| を使用した履歴の取得
+ - |unite-quickfix-usage|
 
-- |pathshorten()| を使用したファイルパスの短縮
-
-- 文字コードの変換に未対応
+- |pathshorten()| を使用したファイルパスの短縮可能
+ - |g:unite_quickfix_filename_is_pathshorten|
 
 - location_list の出力
+ - :Unite location_list
 
+- ハイライト
+ - see: http://d.hatena.ne.jp/osyo-manga/20130326/1364298157
+
+- 文字コードの変換には未対応
 
 
 ==============================================================================
