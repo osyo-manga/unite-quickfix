@@ -7,8 +7,8 @@
 概要				|unite_quickfix-introduction|
 使い方				|unite-quickfix-usage|
 設定				|unite-quickfix-setting|
-  unite-quickrun の変数		  |unite-quickfix-variables|
-  unite-location_list の変数	  |unite-location_list-variables|
+  unite-quickfix の変数		  |unite-quickfix-variables|
+設定例				|unite-quickfix-example|
 
 
 ==============================================================================
@@ -77,7 +77,7 @@ unite-qf - github : https://github.com/sgur/unite-qf
 
 
 ------------------------------------------------------------------------------
-unite-quickrun の変数				*unite-quickfix-variables*
+unite-quickfix の変数				*unite-quickfix-variables*
 
 g:unite_quickfix_filename_is_pathshorten	*g:unite_quickfix_filename_is_pathshorten*
 	表示されるファイル名を短縮するかどうか設定します。
@@ -109,7 +109,7 @@ Default: >
 また、この機能は -multi-line では使用できず、-wrap を設定する必要があります。
 
 Example: >
-	" multi-line を切る
+	" multi-line を無効にする
 	let g:unite_quickfix_is_multiline=0
 	
 	" コンバータに converter_quickfix_highlight を設定
