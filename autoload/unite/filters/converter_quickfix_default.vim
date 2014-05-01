@@ -22,9 +22,9 @@ let s:converter = {
 \}
 
 
-function! s:convert(val)
+function! s:convert(val, is_pathshorten)
 	if a:val.bufnr && !empty(bufname(a:val.bufnr))
-		if g:unite_quickfix_filename_is_pathshorten
+		if a:is_pathshorten
 			let fname = pathshorten(bufname(a:val.bufnr))
 		else
 			let fname = bufname(a:val.bufnr)
@@ -42,15 +42,16 @@ function! s:convert(val)
 \	  = a:val.type == "e" ? "|error "
 \	  : a:val.type == "w" ? "|warning "
 \	  : "|"
-	return fname."|".line.error."|".text
+	return fname . "|" . line . error . "|" . text
 endfunction
 
 
 function! s:converter.filter(candidates, context)
 	for candidate in a:candidates
-		let word = s:convert(candidate.action__quickfix_val)
-		let candidate.word = word
-		let candidate.action__text = word
+		let abbr = s:convert(candidate.action__quickfix_val, g:unite_quickfix_filename_is_pathshorten)
+		let candidate.abbr = abbr
+		let candidate.action__text = abbr
+		let candidate.word = s:convert(candidate.action__quickfix_val, 0)
 		let candidate.is_multiline = g:unite_quickfix_is_multiline
 	endfor
 	return a:candidates
