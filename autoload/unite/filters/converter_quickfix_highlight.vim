@@ -44,7 +44,8 @@ function! s:convert(val, is_pathshorten)
 \	  : a:val.type ==# "w" ? "|P>warning<P|"
 \	  : ""
 	if g:unite#filters#converter_quickfix_highlight#enable_bold_for_message
-		return s:to_message(fname, line, a:val.col, error, error == "" ? text : "|B>".text. "<B|")
+		let text = (text == "" || text[0] ==# " " ? text[1:] : text)
+		return s:to_message(fname, line, a:val.col, error, error == "" ? text : "|B>". text . "<B|")
 	else
 		return s:to_message(fname, line, a:val.col, error, text)
 	endif

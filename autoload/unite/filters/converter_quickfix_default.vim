@@ -28,7 +28,7 @@ function! unite#filters#converter_quickfix_default#to_message(fname, line, col, 
 \			, a:col > 0  ? "col " . a:col : ""
 \			, a:error
 \	], "len(v:val)"), " ")
-	return a:fname . "|" . pos . "|" . a:text
+	return a:fname . "|" . pos . "|" . (a:text == "" || a:text[0] ==# " " ? "" : " ") . a:text
 endfunction
 
 
@@ -49,8 +49,8 @@ function! s:convert(val, is_pathshorten)
 	let line  = a:val.lnum
 	let text  = a:val.text
 	let error
-\	  = a:val.type ==# "e" ? "|error|"
-\	  : a:val.type ==# "w" ? "|warning|"
+\	  = a:val.type ==# "e" ? "error"
+\	  : a:val.type ==# "w" ? "warning"
 \	  : ""
 	return unite#filters#converter_quickfix_default#to_message(fname, line, a:val.col, error, text)
 " 	return fname . "|" . line . error . "|" . text
