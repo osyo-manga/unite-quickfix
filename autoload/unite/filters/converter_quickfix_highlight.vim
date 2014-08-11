@@ -19,12 +19,7 @@ let s:converter = {
 
 
 function! s:to_message(fname, line, col, error, text)
-	let pos = join(filter([
-\			  a:line == 0 ? "" : a:line
-\			, a:col == 0 ? "" : "col " . a:col
-\			, a:error
-\	], "len(v:val)"), " ")
-	return a:fname . "|" . pos . "|" . a:text
+	return unite#filters#converter_quickfix_default#to_message(a:fname, a:line, a:col, a:error, a:text)
 endfunction
 
 
