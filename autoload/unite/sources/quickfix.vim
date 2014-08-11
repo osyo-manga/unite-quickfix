@@ -83,7 +83,7 @@ function! unite#sources#quickfix#hl_candidates()
 	syntax match uniteSource__QuickFix_PurplehiddenBegin '|P>' contained conceal
 	syntax match uniteSource__QuickFix_PurpleHiddenEnd   '<P|' contained conceal
 
-	syntax match uniteSource__QuickFix_File /[^|]\+|\d*[| ]/
+	syntax match uniteSource__QuickFix_File /[^|]\+\ze|\d*[| ]/
 \		contained containedin=uniteSource__QuickFix
 \		contains
 \			= uniteSource__QuickFix_LineNr
