@@ -101,6 +101,16 @@ Default: >
 	let g:unite_quickfix_is_multiline = 1
 <
 
+	*g:unite#filters#converter_quickfix_highlight#enable_bold_for_message*
+g:unite#filters#converter_quickfix_highlight#enable_bold_for_message
+	Setting bold type for error message.
+
+	0 : No bold type
+	1 : bold type
+
+Default: >
+	let g:unite#filters#converter_quickfix_highlight#enable_bold_for_message = 1
+<
 
 ==============================================================================
 EXAMPLES					*unite-quickfix-example*
