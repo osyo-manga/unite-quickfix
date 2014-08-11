@@ -8,10 +8,24 @@ function! unite#filters#converter_quickfix_highlight#define()
 endfunction
 
 
+let g:unite#filters#converter_quickfix_highlight#enable_bold_for_message = get(g:, "unite#filters#converter_quickfix_highlight#enable_bold_for_message", 1)
+
+
 let s:converter = {
 \	"name" : "converter_quickfix_highlight",
 \	"description" : "unite-quickfix highlight converter"
 \}
+
+
+
+function! s:to_message(fname, line, col, error, text)
+	let pos = join(filter([
+\			  a:line == 0 ? "" : a:line
+\			, a:col == 0 ? "" : "col " . a:col
+\			, a:error
+\	], "len(v:val)"), " ")
+	return a:fname . "|" . pos . "|" . a:text
+endfunction
 
 
 function! s:convert(val, is_pathshorten)
@@ -28,13 +42,17 @@ function! s:convert(val, is_pathshorten)
 			let fname = ""
 		endif
 	endif
-	let line  = fname == "" ? "" : a:val.lnum
+	let line  = a:val.lnum
 	let text  = a:val.text
 	let error
-\	  = a:val.type == "e" ? "||R>error <R|"
-\	  : a:val.type == "w" ? "||P>warning <P|"
-\	  : "|"
-	return fname."|".line.error."|".(error == "|" ? text : "|B>".text. "<B|")
+\	  = a:val.type ==# "e" ? "|R>error<R|"
+\	  : a:val.type ==# "w" ? "|P>warning<P|"
+\	  : ""
+	if g:unite#filters#converter_quickfix_highlight#enable_bold_for_message
+		return s:to_message(fname, line, a:val.col, error, error == "" ? text : "|B>".text. "<B|")
+	else
+		return s:to_message(fname, line, a:val.col, error, text)
+	endif
 endfunction
 
 
