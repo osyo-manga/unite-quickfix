@@ -69,9 +69,21 @@ function! unite#sources#quickfix#color_tag_syntax(name, first, last)
 endfunction
 
 
+function! s:default_highlight()
+	if !hlexists("UniteQuickFixError")
+		highlight UniteQuickFixError ctermfg=1 guifg=Red term=bold gui=bold
+	endif
+	if !hlexists("UniteQuickFixWarning")
+		highlight UniteQuickFixWarning ctermfg=1 guifg=Purple
+	endif
+endfunction
+
+
 function! unite#sources#quickfix#hl_candidates()
+	call s:default_highlight()
 	call unite#sources#quickfix#color_tag_syntax("Bold", "|B>", "<B|")
 	highlight uniteSource__QuickFix_Bold term=bold gui=bold
+
 
 	call unite#sources#quickfix#color_tag_syntax("Red", "|R>", "<R|")
 	highlight uniteSource__QuickFix_Red ctermfg=1 guifg=Red
@@ -79,9 +91,14 @@ function! unite#sources#quickfix#hl_candidates()
 	call unite#sources#quickfix#color_tag_syntax("Purple", "|P>", "<P|")
 	highlight uniteSource__QuickFix_Purple ctermfg=1 guifg=Purple
 
+	call unite#sources#quickfix#color_tag_syntax("Error", ">E|", "|E<")
+	highlight default link uniteSource__QuickFix_Error UniteQuickFixError
 
-	syntax match uniteSource__QuickFix_PurplehiddenBegin '|P>' contained conceal
-	syntax match uniteSource__QuickFix_PurpleHiddenEnd   '<P|' contained conceal
+	call unite#sources#quickfix#color_tag_syntax("Warning", ">W|", "|W<")
+	highlight default link uniteSource__QuickFix_Warning UniteQuickFixWarning
+
+" 	syntax match uniteSource__QuickFix_PurplehiddenBegin '|P>' contained conceal
+" 	syntax match uniteSource__QuickFix_PurpleHiddenEnd   '<P|' contained conceal
 
 	syntax match uniteSource__QuickFix_File /[^|]\+\ze|\d*[| ]/
 \		contained containedin=uniteSource__QuickFix

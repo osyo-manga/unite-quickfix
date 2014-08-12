@@ -112,10 +112,29 @@ Default: >
 	let g:unite#filters#converter_quickfix_highlight#enable_bold_for_message = 1
 <
 
+------------------------------------------------------------------------------
+HIGHLIGHTS					*unite-quickfix-highlight*
+
+Highlights to be applied at converter_quickfix_highlight.
+
+
+UniteQuickFixError		*unite-quickfix-highlight-UniteQuickFixError*
+	Setting the highlight of "error".
+	"error" のハイライトを設定します。
+Default: >
+	highlight UniteQuickFixError ctermfg=1 guifg=Red term=bold gui=bold
+<
+
+UniteQuickFixWarning		*unite-quickfix-highlight-UniteQuickFixWarning*
+	Setting the highlight of "warning".
+Default: >
+	highlight UniteQuickFixWarning ctermfg=1 guifg=Purple
+<
+
 ==============================================================================
 EXAMPLES					*unite-quickfix-example*
 
-Enable highlighting				*unite-quickfix-highlight*
+Enable highlighting			*unite-quickfix-example-highlight*
 You need to configure unite-filters in order to enable highlighting.
 Highlighting does not work with the -multi-line option. You need to use -wrap
 in order for it to work.

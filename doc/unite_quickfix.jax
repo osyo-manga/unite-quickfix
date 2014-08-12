@@ -111,11 +111,29 @@ Default: >
 	let g:unite#filters#converter_quickfix_highlight#enable_bold_for_message = 1
 <
 
+------------------------------------------------------------------------------
+unite-quickfix のハイライト			*unite-quickfix-highlight*
+
+converter_quickfix_highlight 時に適用されるハイライトです。
+
+
+UniteQuickFixError		*unite-quickfix-highlight-UniteQuickFixError*
+	"error" のハイライトを設定します。
+Default: >
+	highlight UniteQuickFixError ctermfg=1 guifg=Red term=bold gui=bold
+<
+
+UniteQuickFixWarning		*unite-quickfix-highlight-UniteQuickFixWarning*
+	"warning" のハイライトを設定します。
+Default: >
+	highlight UniteQuickFixWarning ctermfg=1 guifg=Purple
+<
+
 
 ==============================================================================
 設定例						*unite-quickfix-example*
 
-ハイライトする					*unite-quickfix-highlight*
+ハイライトする				*unite-quickfix-example-highlight*
 ハイライト機能を使用する場合は unite-filters で設定します。
 また、この機能は -multi-line では使用できず、-wrap を設定する必要があります。
 
