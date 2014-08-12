@@ -33,16 +33,19 @@ endfunction
 
 
 function! unite#sources#quickfix#get_quickfix_title(...)
+	let tabnr = tabpagenr()
 	let is_location_list = get(a:, 1, 0)
+	let result = ""
 	try
 		noautocmd tabnew
 		execute "noautocmd" is_location_list ? "lopen" : "copen"
-		return w:quickfix_title
+		silent! let result = w:quickfix_title
 	finally
 		execute "noautocmd" is_location_list ? "lclose" : "cclose"
-		noautocmd close
+		noautocmd bdelete
+		execute "tabnext" tabnr
 	endtry
-	return ""
+	return result
 endfunction
 
 
