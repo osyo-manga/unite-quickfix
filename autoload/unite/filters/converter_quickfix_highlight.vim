@@ -41,7 +41,7 @@ function! s:convert(val, is_pathshorten)
 	let text  = a:val.text
 	let error
 \	  = a:val.type ==? "e" ? ">E|error|E<"
-\	  : a:val.type ==# "w" ? ">W|warning|W<"
+\	  : a:val.type ==? "w" ? ">W|warning|W<"
 \	  : ""
 	if g:unite#filters#converter_quickfix_highlight#enable_bold_for_message
 		let text = (text == "" || text[0] ==# " " ? text[1:] : text)
