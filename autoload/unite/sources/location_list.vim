@@ -31,7 +31,10 @@ function! s:location_list_to_unite(val)
 \		}
 endfunction
 
+
 function! s:source.gather_candidates(args, context)
+	call unite#print_source_message(strtrans(unite#sources#quickfix#get_quickfix_title(1)), "location_list")
+
 	let unite = get(b:, "unite", {})
 	let winnr = get(unite, "prev_winnr", winnr())
 

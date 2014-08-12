@@ -31,7 +31,24 @@ function! s:qflist_to_unite(val)
 \		)
 endfunction
 
+
+function! unite#sources#quickfix#get_quickfix_title(...)
+	let is_location_list = get(a:, 1, 0)
+	try
+		noautocmd tabnew
+		execute "noautocmd" is_location_list ? "lopen" : "copen"
+		return w:quickfix_title
+	finally
+		execute "noautocmd" is_location_list ? "lclose" : "cclose"
+		noautocmd close
+	endtry
+	return ""
+endfunction
+
+
 function! s:source.gather_candidates(args, context)
+	call unite#print_source_message(strtrans(unite#sources#quickfix#get_quickfix_title()), "quickfix")
+	
 	let qfolder = empty(a:args) ? 0 : a:args[0]
 	if qfolder == 0
 		return map(getqflist(), "s:qflist_to_unite(v:val)")
@@ -111,6 +128,7 @@ function! unite#sources#quickfix#hl_candidates()
 \		contained containedin=uniteSource__QuickFix
 
 	highlight default link uniteSource__QuickFix_LineNr LineNr
+	
 endfunction
 
 
