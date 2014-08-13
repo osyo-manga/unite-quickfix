@@ -21,7 +21,7 @@ function! s:qflist_to_unite(val)
 
 	return extend({
 \		"source": "quickfix",
-\		"kind": "jump_list",
+\		"kind": ["jump_list", "common"],
 \		"action__line" : line,
 \		"action__pattern" : a:val.pattern,
 \		"action__quickfix_val" : a:val,
@@ -127,11 +127,10 @@ function! unite#sources#quickfix#hl_candidates()
 
 	highlight default link uniteSource__QuickFix_File Directory
 
-	syntax match uniteSource__QuickFix_LineNr /|\d\+ col \d\+[| ]\||\d\+[| ]/hs=s+1,he=e-1
+	syntax match uniteSource__QuickFix_LineNr /|\d\+ col \d\+[| ]\||\d\+[| ]/hs=s+1
 \		contained containedin=uniteSource__QuickFix
 
 	highlight default link uniteSource__QuickFix_LineNr LineNr
-	
 endfunction
 
 

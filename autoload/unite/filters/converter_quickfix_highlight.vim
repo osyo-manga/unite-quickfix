@@ -56,9 +56,9 @@ function! s:converter.filter(candidates, context)
 	for candidate in a:candidates
 		let abbr = s:convert(candidate.action__quickfix_val, g:unite_quickfix_filename_is_pathshorten)
 		let candidate.abbr = abbr
-		let candidate.action__text = abbr
 		let candidate.word = s:convert(candidate.action__quickfix_val, 0)
 		let candidate.is_multiline = g:unite_quickfix_is_multiline
+		let candidate.action__text = candidate.action__quickfix_val.text
 	endfor
 	return a:candidates
 endfunction
