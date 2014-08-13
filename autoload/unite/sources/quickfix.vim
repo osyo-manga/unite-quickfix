@@ -21,7 +21,7 @@ function! s:qflist_to_unite(val)
 
 	return extend({
 \		"source": "quickfix",
-\		"kind": ["jump_list", "common"],
+\		"kind": ["common", "jump_list"],
 \		"action__line" : line,
 \		"action__pattern" : a:val.pattern,
 \		"action__quickfix_val" : a:val,
