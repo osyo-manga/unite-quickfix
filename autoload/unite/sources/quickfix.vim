@@ -99,7 +99,26 @@ function! s:default_highlight()
 endfunction
 
 
-function! unite#sources#quickfix#hl_candidates()
+
+let s:Highlight = vital#of("unite_quickfix").import("Coaster.Highlight")
+let s:highlighter = s:Highlight.make()
+call s:highlighter.add("file", "Directory", '^\s*\zs[^|]\+\ze|', 0)
+call s:highlighter.add("line", "LineNr", '^.\{-}|\zs[^|]\+\ze|', 0)
+call s:highlighter.add("error", "UniteQuickFixError", '^.\{-}|.\{-}\zserror\ze|', 0)
+call s:highlighter.add("warning", "UniteQuickFixWarning", '^.\{-}|.\{-}\zswarning\ze|', 0)
+
+
+function! unite#sources#quickfix#highlight_enable()
+	call s:highlighter.enable_all()
+endfunction
+
+
+function! unite#sources#quickfix#highlight_disable()
+	call s:highlighter.disable_all()
+endfunction
+
+
+function! unite#sources#quickfix#hl_candidates(context)
 	call s:default_highlight()
 	call unite#sources#quickfix#color_tag_syntax("Bold", "|B>", "<B|")
 	highlight uniteSource__QuickFix_Bold term=bold gui=bold
@@ -117,25 +136,14 @@ function! unite#sources#quickfix#hl_candidates()
 	call unite#sources#quickfix#color_tag_syntax("Warning", ">W|", "|W<")
 	highlight default link uniteSource__QuickFix_Warning UniteQuickFixWarning
 
-" 	syntax match uniteSource__QuickFix_PurplehiddenBegin '|P>' contained conceal
-" 	syntax match uniteSource__QuickFix_PurpleHiddenEnd   '<P|' contained conceal
-
-	syntax match uniteSource__QuickFix_File /[^|]\+\ze|\d*[| ]/
-\		contained containedin=uniteSource__QuickFix
-\		contains
-\			= uniteSource__QuickFix_LineNr
-
-	highlight default link uniteSource__QuickFix_File Directory
-
-	syntax match uniteSource__QuickFix_LineNr /|\d\+ col \d\+[| ]\||\d\+[| ]/hs=s+1
-\		contained containedin=uniteSource__QuickFix
-
-	highlight default link uniteSource__QuickFix_LineNr LineNr
+	let marked_icon = unite#util#escape_pattern(a:context.marked_icon)
+	call s:highlighter.add("uniteMarkedLine", "uniteMarkedLine", '^' . marked_icon . '.*$', 5)
+	call unite#sources#quickfix#highlight_enable()
 endfunction
 
 
 function! s:source.hooks.on_syntax(args, context)
-	call unite#sources#quickfix#hl_candidates()
+	call unite#sources#quickfix#hl_candidates(a:context)
 	let self.source__old_concealcursor = &l:concealcursor
 	setlocal concealcursor=incv
 endfunction
@@ -145,6 +153,7 @@ function! s:source.hooks.on_close(args, context)
 	if &l:concealcursor == "incv"
 		let &l:concealcursor = self.source__old_concealcursor
 	endif
+	call unite#sources#quickfix#highlight_disable()
 endfunction
 
 
