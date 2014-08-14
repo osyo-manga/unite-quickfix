@@ -57,7 +57,7 @@ endfunction
 
 
 function! s:source.hooks.on_syntax(args, context)
-	call unite#sources#quickfix#hl_candidates()
+	call unite#sources#quickfix#hl_candidates(a:context)
 	let self.source__old_concealcursor = &l:concealcursor
 	setlocal concealcursor=incv
 endfunction
