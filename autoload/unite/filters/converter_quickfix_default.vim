@@ -47,7 +47,8 @@ function! s:convert(val, is_pathshorten)
 		endif
 	endif
 	let line  = a:val.lnum
-	let text  = a:val.text
+	let text  = substitute(a:val.text, '\s*\n\s*', ' ', "g")
+	
 	let error
 \	  = a:val.type ==? "e" ? "error"
 \	  : a:val.type ==? "w" ? "warning"
