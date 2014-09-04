@@ -52,10 +52,16 @@ function! s:source.gather_candidates(args, context)
 endfunction
 
 
+
 function! s:source.hooks.on_syntax(args, context)
 	call unite#sources#quickfix#hl_candidates(a:context)
+endfunction
+
+
+function! s:source.hooks.on_init(args, context)
 	let self.source__old_concealcursor = &l:concealcursor
 	setlocal concealcursor=incv
+	call unite#sources#quickfix#highlight_enable()
 endfunction
 
 

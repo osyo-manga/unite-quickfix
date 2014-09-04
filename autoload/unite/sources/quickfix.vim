@@ -104,8 +104,8 @@ let s:Highlight = vital#of("unite_quickfix").import("Coaster.Highlight")
 let s:highlighter = s:Highlight.make()
 call s:highlighter.add("file", "Directory", '^\s*\zs[^|]\+\ze|', 0)
 call s:highlighter.add("line", "LineNr", '^.\{-}|\zs[^|]\+\ze|', 0)
-call s:highlighter.add("error", "UniteQuickFixError", '^.\{-}|.\{-}\zserror\ze|', 0)
-call s:highlighter.add("warning", "UniteQuickFixWarning", '^.\{-}|.\{-}\zswarning\ze|', 0)
+call s:highlighter.add("error", "UniteQuickFixError", '^.\{-}|.\{-}\zserror\ze[:|]', 0)
+call s:highlighter.add("warning", "UniteQuickFixWarning", '^.\{-}|.\{-}\zswarning\ze[:|]', 0)
 
 
 function! unite#sources#quickfix#highlight_enable()
@@ -157,5 +157,8 @@ function! s:source.hooks.on_close(args, context)
 endfunction
 
 
+if expand("%:p") == expand("<sfile>:p")
+	call unite#define_source(s:source)
+endif
 
 
