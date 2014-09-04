@@ -51,10 +51,6 @@ function! s:source.gather_candidates(args, context)
 	endif
 endfunction
 
-function! s:source.hooks.on_syntax(args, context)
-	call unite#sources#quickfix#hl_candidates()
-endfunction
-
 
 function! s:source.hooks.on_syntax(args, context)
 	call unite#sources#quickfix#hl_candidates(a:context)
@@ -67,5 +63,6 @@ function! s:source.hooks.on_close(args, context)
 	if &l:concealcursor == "incv"
 		let &l:concealcursor = self.source__old_concealcursor
 	endif
+	call unite#sources#quickfix#highlight_disable()
 endfunction
 
