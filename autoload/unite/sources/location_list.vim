@@ -21,7 +21,7 @@ function! s:location_list_to_unite(val)
 
 	return {
 \		"source": "location_list",
-\		"kind": "jump_list",
+\		"kind": a:val.valid ? ["common", "jump_list"] : ["common"],
 \		"action__buffer_nr" : bufnr,
 \		"action__path" : fname,
 \		"action__line" : line,

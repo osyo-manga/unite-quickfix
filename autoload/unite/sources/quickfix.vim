@@ -21,7 +21,7 @@ function! s:qflist_to_unite(val)
 
 	return extend({
 \		"source": "quickfix",
-\		"kind": ["common", "jump_list"],
+\		"kind": a:val.valid ? ["common", "jump_list"] : ["common"],
 \		"action__line" : line,
 \		"action__pattern" : a:val.pattern,
 \		"action__quickfix_val" : a:val,
@@ -150,7 +150,7 @@ endfunction
 
 
 function! s:source.hooks.on_close(args, context)
-	if &l:concealcursor == "incv"
+	if &l:concealcursor == "incv" && exists("self.source__old_concealcursor")
 		let &l:concealcursor = self.source__old_concealcursor
 	endif
 	call unite#sources#quickfix#highlight_disable()
