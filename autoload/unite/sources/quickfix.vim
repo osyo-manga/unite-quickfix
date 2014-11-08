@@ -38,7 +38,7 @@ function! unite#sources#quickfix#get_quickfix_title(...)
 	let result = ""
 	try
 		noautocmd tabnew
-		execute "noautocmd" is_location_list ? "lopen" : "copen"
+		silent! execute "noautocmd" is_location_list ? "lopen" : "copen"
 		silent! let result = w:quickfix_title
 	finally
 		execute "noautocmd" is_location_list ? "lclose" : "cclose"
